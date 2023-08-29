@@ -23,7 +23,7 @@ COPY --from=build-stage /obsidian-sync /obsidian-sync
 
 EXPOSE 3000
 
-USER nonroot:nonroot
+#USER nonroot:nonroot
 
 ENTRYPOINT ["/obsidian-sync"]
 
