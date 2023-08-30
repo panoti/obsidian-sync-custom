@@ -27,15 +27,32 @@ These features are not in the latest release but in the main branch. They might 
 - Fix bugs
 - Publish
 
-
 ## Setup
+
+<details>
+
+<summary>
+
+### Manual building
+</summary>
+
 - `git clone https://github.com/acheong08/obsidian-sync`
 - `cd obsidian-sync`
 - `export HOST=<YOUR DOMAIN NAME>` - Not necessary when running on localhost
 - `go run cmd/obsidian-sync/main.go`
-- Use nginx or cloudflare to proxy & handle TLS/SSL
 
-~~**HTTPS _should_ be required. I use `certbot` or Cloudflare**. By default, the sync uses `wss` unless you're operating on `localhost` or `127.0.0.1` which breaks if you don't have TLS/SSL~~
+</details>
+
+<details>
+
+<summary>
+
+### Docker
+</summary>
+
+https://github.com/acheong08/rev-obsidian-sync/pkgs/container/rev-obsidian-sync
+
+</details>
 
 HTTPS is not required.
 
@@ -53,8 +70,8 @@ map $http_upgrade $connection_upgrade {
         '' close;
 }
 server {
-	listen 80 default_server;
-	listen [::]:80 default_server;
+	listen 80;
+	listen [::]:80;
 	location / {
 		proxy_http_version 1.1;
             	proxy_set_header Upgrade $http_upgrade;
@@ -62,9 +79,24 @@ server {
            	proxy_set_header Host $host;
 		proxy_pass http://127.0.0.1:3000/;
 	}
-	server_name _;
+	server_name <your domain name>; # e.g. api.obsidian.md
+}
+# This is for obsidian publish (Optional)
+server {
+	listen 80;
+	listen [::]:80;
+	location / {
+		proxy_http_version 1.1;
+            	proxy_set_header Upgrade $http_upgrade;
+            	proxy_set_header Connection $connection_upgrade;
+           	proxy_set_header Host $host;
+		proxy_pass http://127.0.0.1:3000/published/;
+	}
+	server_name <another domain name>; # e.g. publish.obsidian.md
 }
 ```
+
+You can use `certbot` or cloudflare to handle HTTPS although it is not mandatory.
 
 </details>
 
@@ -88,11 +120,5 @@ This plugin will not be part of the official community plugins list.
 - Install https://github.com/acheong08/rev-obsidian-sync-plugin
 - Go to settings
 - Set API endpoint
-	- e.g. `https://obsidian.yourdomain.com`
- 	- For development: `http://127.0.0.1:3000` 
-
-Known bugs:
-
-- ~~Cannot restart plugin (for whatever reason you might want to do that...) - Restart the app if you want to reload this particular plugin~~
-
-Report all bugs in this repository.
+  - e.g. `https://obsidian.yourdomain.com`
+  - For development: `http://127.0.0.1:3000`

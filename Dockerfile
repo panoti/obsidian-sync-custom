@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1
 
 # Build the application from source
-FROM golang:1.21 AS build-stage
+FROM golang:1.20 AS build-stage
 
 WORKDIR /app
 
@@ -18,6 +18,8 @@ FROM gcr.io/distroless/base-debian11 AS build-release-stage
 WORKDIR /
 
 COPY --from=build-stage /obsidian-sync /obsidian-sync
+
+ENV HOST=0.0.0.0
 
 EXPOSE 3000
 
