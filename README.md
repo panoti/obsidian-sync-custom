@@ -1,6 +1,8 @@
 # Rev Obsidian Sync
 
-Reverse engineered obsidian sync server (NOT OFFICIAL)
+Reverse engineered obsidian sync server (NOT OFFICIAL).
+
+I have abandoned ObsidianMD due to bad faith behavior. I am working on writing a compatible Logseq plugin that will use this server.
 
 > [!WARNING]
 > The main branch is the development branch. For stable usage, use the latest release.
@@ -29,7 +31,7 @@ These features are not in the latest release but in the main branch. They might 
 
 ## Setup
 
-[Quickstart with Docker](https://github.com/acheong08/rev-obsidian-sync/wiki/Docker-Compose)
+[Quickstart with Docker](https://github.com/acheong08/rev-obsidian-sync/blob/main/docker-compose.yml)
 
 ### Environment variables
 #### Required:
